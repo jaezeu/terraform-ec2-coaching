@@ -12,7 +12,7 @@ yum install -y httpd
 systemctl enable httpd
 systemctl start httpd
 EOF
-user_data_replace_on_change = true # this forces instance to be recreated upon update of user data contents
+  user_data_replace_on_change = true # this forces instance to be recreated upon update of user data contents
   tags = {
     Name = "${var.prefix}-instance-${count.index}"
   }
