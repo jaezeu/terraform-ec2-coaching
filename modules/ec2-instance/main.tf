@@ -6,7 +6,13 @@ resource "aws_instance" "public" {
   iam_instance_profile        = aws_iam_instance_profile.example.name
   associate_public_ip_address = true
   key_name                    = var.enable_ssh_key ? aws_key_pair.key_pair[0].key_name : null
-
+  user_data                   = <<EOF
+#!/bin/bash
+yum install -y httpd
+systemctl enable httpd
+systemctl start httpd
+EOF
+user_data_replace_on_change = true # this forces instance to be recreated upon update of user data contents
   tags = {
     Name = "${var.prefix}-instance-${count.index}"
   }
